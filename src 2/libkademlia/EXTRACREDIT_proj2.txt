@@ -1,0 +1,64 @@
+NetIDs: hlf8244 mcm9021 xdc6056
+
+Test IterativeFindNode: 
+
+                       1    1
+                     /    /
+			        /    / 
+		          B -- 2 -- 2   
+		        /   \  . \  .
+		       /     \ .  \ .
+		     A -- C    5    5
+		       \  .       
+		        \ .
+                  F
+
+	We build such architecture of out network.
+	We let every node save its neibour in its k-bucket.
+	We just set one bit as 1 to distinguish every nodeID, at most, there is 
+	160 nodeIDs, 0 - 159
+
+	We just set A as 0, B - F are A * 5 + i(i = 1-5)
+	Following the order, If we want to find the the neighbour list of Node 10 from Node 0
+	It will find:
+	0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19
+
+	We just check whether the shortlist returned contains such nodes, if it is, test passed
+	or if not, faield.
+
+
+Test Iterative store 
+
+                       1    1
+                     /    /
+			        /    / 
+		          B -- 2 -- 2   
+		        /   \  . \  .
+		       /     \ .  \ .
+		     A -- C    5    5
+		       \  .       
+		        \ .
+                  F
+
+	We buile such architecture of out network.
+	We let every node save its neibour in its k-bucket.
+	We just set one bit as 1 to distinguish every nodeID, at most, there is 
+	160 nodeIDs, 0 - 159
+
+	We just set A as 0, B - F are A * 5 + i(i = 1-5)
+	We just save a {value: helloworld, ID: nodeID +1}
+	We just let node 10 find the data locally
+
+	We just check whether the value returned is "hello world", if it is, test passed
+	or if not, faield.
+
+
+TestIterativeFindValue:
+Create a three-layer tree structure, and each node(server) have five children (156 nodes in total). Each node that is not leaf node DoPing to its children. The i-th node have a NodeID of which the i-th bit is set (e.g. tree_node[10].NodeID = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 0]), and its children is tree_node[5i+1:5i+5].
+Then we do a DoIterativeStore at tree_node[0] with key=[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 1] and value = “Hello World”, and perform a DoIterativeFindValue to check if the value is stored in tree_node[10] (NodeID=[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 0]).
+Result: “Hello World”. Correct.
+
+TestIterativeFindValue2:
+Create a three-layer tree structure, and each node(server) have five children (156 nodes in total). Each node that is not leaf node DoPing to its children. The i-th node have a NodeID of which the i-th bit is set (e.g. tree_node[10].NodeID = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 0]), and its children is tree_node[5i+1:5i+5].
+Then we do a DoIterativeStore at tree_node[0] with key=[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 1] and value = “Hello World”, and perform a DoIterativeFindValue with key =[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 2]).
+Result: Value Not Found, Closest node:[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 0]. Correct.

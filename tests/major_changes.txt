@@ -1,0 +1,9 @@
+RPC_Search: *Contact -> Contact
+tempList: minLen -> len(tempList)
+Both of them are because tempList is modified
+
+DoStore: add k.Senders <- *contact
+DoFindNode: add if msgID not match
+DoFindNode, DoFindValue: add update kbuckets with newly returned contacts
+RPC_Search: add MsgID check, add update k-buckets with new contacts
+RPC_SearchValue: add MsgID check, add update k-buckets with new contacts
